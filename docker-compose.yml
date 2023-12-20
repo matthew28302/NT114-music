@@ -1,0 +1,30 @@
+version: '3.8'  # Specify a compatible version
+
+services:
+
+  mysql:
+    image: mysql:8.2.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password  # Set the root password
+      MYSQL_DATABASE: my_music  # Create the database
+      MYSQL_HOST_CACHE_SIZE: 0
+    volumes:
+      - mysql-data:/var/lib/mysql  # Create a volume for persistent data
+    ports:
+      - "3307:3306"
+
+  app:
+    build: .  # Build the image from the current directory
+    depends_on:
+      - mysql  # Ensure MySQL starts first
+    environment:
+      MYSQL_HOST: mysql  # Connect to the MySQL container
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: my_music
+    ports:
+      - "5000:5000"
+
+volumes:
+  mysql-data:  # Define the volume for MySQL data
