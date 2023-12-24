@@ -16,7 +16,7 @@ email1=""
 password1=""
 username2=""
 
-app.config['MYSQL_HOST']='localhost'
+app.config['MYSQL_HOST']='mysql'
 app.config['MYSQL_USER']='root'
 app.config['MYSQL_PASSWORD']='password'
 app.config['MYSQL_DB']='my_music'

@@ -1,30 +1,26 @@
-version: '3.8'  # Specify a compatible version
+version: '3'
 
 services:
-
   mysql:
     image: mysql:8.2.0
-    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: password  # Set the root password
-      MYSQL_DATABASE: my_music  # Create the database
-      MYSQL_HOST_CACHE_SIZE: 0
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: my_music
+      MYSQL_HOST: 127.0.0.1
     volumes:
-      - mysql-data:/var/lib/mysql  # Create a volume for persistent data
+      - mysql-data:/var/lib/mysql
+      - ./table.sql:/docker-entrypoint-initdb.d/table.sql
     ports:
       - "3307:3306"
+    restart: always  # Ensure MySQL container restarts if it fails
 
   app:
-    build: .  # Build the image from the current directory
+    build: .
     depends_on:
-      - mysql  # Ensure MySQL starts first
-    environment:
-      MYSQL_HOST: mysql  # Connect to the MySQL container
-      MYSQL_USER: root
-      MYSQL_PASSWORD: password
-      MYSQL_DATABASE: my_music
+      - mysql
     ports:
       - "5000:5000"
+    restart: always  # Ensure app container restarts if it fails
 
 volumes:
-  mysql-data:  # Define the volume for MySQL data
+  mysql-data:
