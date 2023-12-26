@@ -5,6 +5,7 @@ ENV MYSQL_HOST=127.0.0.1
 COPY table.sql /docker-entrypoint-initdb.d/
 
 FROM python:3.13.0a2-slim-bullseye 
+RUN apt-get update -y
 RUN apt-get install -y python3-pip pkg-config libmariadb-dev  # Install the required development headers
 
 # Copy the requirements.txt file to the container
